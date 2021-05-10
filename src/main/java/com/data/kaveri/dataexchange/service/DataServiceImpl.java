@@ -67,15 +67,17 @@ public class DataServiceImpl implements DataService {
         DataEntity dataEntity;
         try {
             Utils.validateDataDTO(dataDto);
-            dataEntity = dataRepository.getById(dataDto.getId());
-            if (dataEntity == null || dataEntity.getId() == null) {
+            if ((!dataRepository.existsById(dataDto.getId())) || dataRepository.getById(dataDto.getId()).isDeleted()) {
                 dataEntity = Utils.getDataEntity(dataDto);
                 dataRepository.save(dataEntity);
+            } else {
+                throw new DataAlreadyExist(dataDto.getId());
             }
         } catch (InvalidInput e) {
             throw e;
-        } catch (Exception e) {
-            throw new DataAlreadyExist(dataDto.getId());
         }
+//        catch (DataAlreadyExist dataAlreadyExist){
+//            throw new DataAlreadyExist(dataDto.getId());
+//        }
     }
 }

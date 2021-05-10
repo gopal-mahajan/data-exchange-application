@@ -2,12 +2,17 @@ package com.data.kaveri.dataexchange.util;
 
 import com.data.kaveri.dataexchange.dto.DataDTO;
 import com.data.kaveri.dataexchange.entities.DataEntity;
+import com.data.kaveri.dataexchange.exception.DataAlreadyExist;
 import com.data.kaveri.dataexchange.exception.InvalidInput;
+import com.data.kaveri.dataexchange.repositories.DataRepository;
 import lombok.experimental.UtilityClass;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.thymeleaf.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @UtilityClass
 public class Utils {
@@ -48,7 +53,7 @@ public class Utils {
         }
     }
 
-    public void validateDataDTO(DataDTO dataDTO) throws InvalidInput {
+    public void validateDataDTO(DataDTO dataDTO) throws InvalidInput, DataAlreadyExist {
         if (StringUtils.isEmpty(dataDTO.getId())
                 || dataDTO.getCurrentLevel() == null
                 || dataDTO.getReferenceLevel() == null
@@ -60,6 +65,7 @@ public class Utils {
         if (!observationTime.isBefore(LocalDateTime.now())) {
             throw new InvalidInput("Observation time should be in past");
         }
+
     }
 }
 

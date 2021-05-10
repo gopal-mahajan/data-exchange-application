@@ -31,86 +31,90 @@ public class DataServiceImplTest {
         String dataId = "d1";
         Float currentLevel = 1.0f;
         String observationDateTime = LocalDateTime.now().toString();
-        Float measuredDistance = 0.0f;
-        Float referenceLevel = 0.0f;
-        DataEntity data = null;
+        Float measuredDistance =1.2f;
+        Float referenceLevel = 2.5f;
+        DataEntity dataEntity = null;
 
-        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(data);
+        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(dataEntity);
         Assert.assertThrows(DataNotFoundException.class, () -> dataService.editData(dataId, currentLevel,
                 observationDateTime, measuredDistance, referenceLevel));
 
-        data = new DataEntity();
-        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(data);
-        dataService.editData(dataId, currentLevel,
-                observationDateTime, measuredDistance, referenceLevel);
+        dataEntity = new DataEntity();
+        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(dataEntity);
+        dataService.editData(dataId, currentLevel,observationDateTime, measuredDistance, referenceLevel);
 
-        data.setId(dataId);
-        Assert.assertEquals(data.getCurrentLevel(), 1.0f, 0.0f);
+        dataEntity.setId(dataId);
+        Assert.assertEquals(dataEntity.getCurrentLevel(), 1.0f, 0.0f);
 
     }
 
     @Test
     public void getById() throws DataNotFoundException {
-        String dataId = "5";
+        String dataId = "d1";
         Float currentLevel = 1.0f;
-        LocalDateTime observationDateTime = LocalDateTime.now();
-        DataEntity data = null;
+        LocalDateTime observationDateTime = LocalDateTime.now().withNano(0);
+        Float measuredDistance =1.2f;
+        Float referenceLevel = 2.5f;
+        DataEntity dataEntity = null;
 
-        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(data);
-        Assert.assertThrows("Data not found : ", DataNotFoundException.class, () -> dataService.getById(dataId));
+        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(dataEntity);
+        Assert.assertThrows( DataNotFoundException.class, () -> dataService.getById(dataId));
 
-        data = new DataEntity();
-        data.setId(dataId);
-        data.setCurrentLevel(currentLevel);
-        data.setObservationTime(observationDateTime);
+        dataEntity = new DataEntity();
+        dataEntity.setId(dataId);
+        dataEntity.setCurrentLevel(currentLevel);
+        dataEntity.setObservationTime(LocalDateTime.now().withNano(0));
 
-        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(data);
+        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(dataEntity);
         DataDTO dataDTO = dataService.getById(dataId);
-        Assert.assertEquals(data.getId(), dataDTO.getId());
-        Assert.assertEquals(data.getCurrentLevel(), dataDTO.getCurrentLevel(), 0.0f);
-        Assert.assertEquals(data.getObservationTime(), dataDTO.getObservationTime());
+        Assert.assertEquals(dataEntity.getId(), dataDTO.getId());
+        Assert.assertEquals(dataEntity.getCurrentLevel(), dataDTO.getCurrentLevel(), 0.0f);
+        Assert.assertEquals(dataEntity.getObservationTime().minusNanos(0).toString(), dataDTO.getObservationTime());
     }
 
     @Test
     public void deleteData() throws DataNotFoundException {
-        String dataId = "";
+        String dataId = "d1";
         Float currentLevel = 1.0f;
         LocalDateTime observationDateTime = LocalDateTime.now();
-        Float measuredDistance = 0.0f;
-        Float referenceLevel = 0.0f;
-        DataEntity data = null;
+        Float measuredDistance =1.2f;
+        Float referenceLevel = 2.5f;
+        DataEntity dataEntity = null;
 
-        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(data);
-        Assert.assertThrows("Data does not exist: ", DataNotFoundException.class, () -> dataService.deleteData(dataId));
+        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(dataEntity);
+        Assert.assertThrows( DataNotFoundException.class, () -> dataService.deleteData(dataId));
 
-        data = new DataEntity();
-        data.setDeleted(false);
-        data.setReferenceLevel(referenceLevel);
-        data.setId(dataId);
-        data.setCurrentLevel(currentLevel);
-        data.setObservationTime(observationDateTime);
-        data.setMeasuredDistance(measuredDistance);
+        dataEntity = new DataEntity();
+        dataEntity.setDeleted(false);
+        dataEntity.setReferenceLevel(referenceLevel);
+        dataEntity.setId(dataId);
+        dataEntity.setCurrentLevel(currentLevel);
+        dataEntity.setObservationTime(observationDateTime);
+        dataEntity.setMeasuredDistance(measuredDistance);
 
-        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(data);
+        Mockito.when(dataRepository.findByIdAndDeleted(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(dataEntity);
         dataService.deleteData(dataId);
-        Assert.assertEquals(data.isDeleted(), true);
+        Assert.assertEquals(dataEntity.isDeleted(), true);
     }
 
     @Test
     public void addData() throws DataAlreadyExist, InvalidInput {
-        // DataDTO dataDto
         String dataId = "d1";
         Float currentLevel = 1.0f;
         String observationTime = LocalDateTime.now().toString();
         Float measuredDistance = 0.0f;
         Float referenceLevel = 0.0f;
-        DataEntity data = new DataEntity();
+        DataEntity dataEntity = new DataEntity();
 
-        data.setReferenceLevel(referenceLevel);
-        data.setId(dataId);
-        data.setCurrentLevel(currentLevel);
-        data.setObservationTime(Utils.parse(observationTime));
-        data.setMeasuredDistance(measuredDistance);
+        dataEntity.setReferenceLevel(referenceLevel);
+        dataEntity.setId(dataId);
+        dataEntity.setCurrentLevel(currentLevel);
+        dataEntity.setObservationTime(Utils.parse(observationTime));
+        dataEntity.setMeasuredDistance(measuredDistance);
+
+        DataDTO dataDTO=Utils.getDataDTO(dataEntity);
+        dataService.addData(dataDTO);
+//        Assert.assertThrows(InvalidInput.class, ()->dataDTO.getObservationTime());
 
         DataDTO data2 = new DataDTO();
         data2.setId("d1");
@@ -119,7 +123,7 @@ public class DataServiceImplTest {
         data2.setCurrentLevel(currentLevel);
         data2.setObservationTime(observationTime);
         data2.setMeasuredDistance(measuredDistance);
-        Assert.assertEquals(data.getId(), "d1");
+        Assert.assertEquals(dataEntity.getId(), "d1");
         Assert.assertThrows(NullPointerException.class, () -> dataService.addData(null));
     }
 
