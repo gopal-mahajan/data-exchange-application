@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class DataDTO {
-    private float currentLevel;
+    private Float currentLevel;
     private String id;
     private String observationTime;
-    private float measuredDistance;
-    private float referenceLevel;
+    private Float measuredDistance;
+    private Float referenceLevel;
 }

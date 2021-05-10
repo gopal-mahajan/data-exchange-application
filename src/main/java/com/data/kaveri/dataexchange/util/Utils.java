@@ -4,13 +4,13 @@ import com.data.kaveri.dataexchange.dto.DataDTO;
 import com.data.kaveri.dataexchange.entities.DataEntity;
 import com.data.kaveri.dataexchange.exception.InvalidInput;
 import lombok.experimental.UtilityClass;
-import org.springframework.boot.autoconfigure.web.format.DateTimeFormatters;
+import org.thymeleaf.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @UtilityClass
-public class DTOUtils {
+public class Utils {
 
     public DataEntity getDataEntity(DataDTO dataDTO) throws InvalidInput {
         DataEntity dataEntity = new DataEntity();
@@ -41,18 +41,25 @@ public class DTOUtils {
 
     public LocalDateTime parse(String localDateTimeOfString) throws InvalidInput {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-        try{
+        try {
             return LocalDateTime.parse(localDateTimeOfString, formatter);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new InvalidInput("Invalid DataTime Format. Please provide it in ISO format.");
         }
     }
 
     public void validateDataDTO(DataDTO dataDTO) throws InvalidInput {
-        LocalDateTime observationTime=parse(dataDTO.getObservationTime());
-        if(!observationTime.isBefore(LocalDateTime.now())){
+        if (StringUtils.isEmpty(dataDTO.getId())
+                || dataDTO.getCurrentLevel() == null
+                || dataDTO.getReferenceLevel() == null
+                || dataDTO.getMeasuredDistance() == null
+                || dataDTO.getObservationTime() == null) {
+            throw new InvalidInput("Data cannot be null");
+        }
+        LocalDateTime observationTime = parse(dataDTO.getObservationTime());
+        if (!observationTime.isBefore(LocalDateTime.now())) {
             throw new InvalidInput("Observation time should be in past");
         }
-        }
+    }
 }
 

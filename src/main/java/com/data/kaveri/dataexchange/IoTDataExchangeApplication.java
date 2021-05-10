@@ -11,5 +11,4 @@ public class IoTDataExchangeApplication {
     public static void main(String[] args) {
         SpringApplication.run(IoTDataExchangeApplication.class, args);
     }
-
 }

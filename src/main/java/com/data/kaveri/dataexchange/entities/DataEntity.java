@@ -24,8 +24,6 @@ public class DataEntity {
     private LocalDateTime observationTime;
     private float measuredDistance;
     private float referenceLevel;
-
-
     private boolean isDeleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -6,7 +6,7 @@ import com.data.kaveri.dataexchange.exception.DataAlreadyExist;
 import com.data.kaveri.dataexchange.exception.DataNotFoundException;
 import com.data.kaveri.dataexchange.exception.InvalidInput;
 import com.data.kaveri.dataexchange.repositories.DataRepository;
-import com.data.kaveri.dataexchange.util.DTOUtils;
+import com.data.kaveri.dataexchange.util.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,9 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataServiceImplTest {
@@ -103,7 +101,7 @@ public class DataServiceImplTest {
         // DataDTO dataDto
         String dataId = "d1";
         Float currentLevel = 1.0f;
-        String observationTime=LocalDateTime.now().toString();
+        String observationTime = LocalDateTime.now().toString();
         Float measuredDistance = 0.0f;
         Float referenceLevel = 0.0f;
         DataEntity data = new DataEntity();
@@ -111,9 +109,8 @@ public class DataServiceImplTest {
         data.setReferenceLevel(referenceLevel);
         data.setId(dataId);
         data.setCurrentLevel(currentLevel);
-        data.setObservationTime(DTOUtils.parse(observationTime));
+        data.setObservationTime(Utils.parse(observationTime));
         data.setMeasuredDistance(measuredDistance);
-
 
         DataDTO data2 = new DataDTO();
         data2.setId("d1");
@@ -122,13 +119,8 @@ public class DataServiceImplTest {
         data2.setCurrentLevel(currentLevel);
         data2.setObservationTime(observationTime);
         data2.setMeasuredDistance(measuredDistance);
-
-
-
         Assert.assertEquals(data.getId(), "d1");
         Assert.assertThrows(NullPointerException.class, () -> dataService.addData(null));
-
-
     }
 
 }

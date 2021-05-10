@@ -6,17 +6,13 @@ import com.data.kaveri.dataexchange.exception.DataAlreadyExist;
 import com.data.kaveri.dataexchange.exception.DataNotFoundException;
 import com.data.kaveri.dataexchange.exception.InvalidInput;
 import com.data.kaveri.dataexchange.repositories.DataRepository;
-import com.data.kaveri.dataexchange.util.DTOUtils;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.data.kaveri.dataexchange.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
 public class DataServiceImpl implements DataService {
 
     @Autowired
@@ -33,7 +29,7 @@ public class DataServiceImpl implements DataService {
             data.setCurrentLevel(currentLevel);
         }
         if (observationDateTime != null) {
-            data.setObservationTime(DTOUtils.parse(observationDateTime));
+            data.setObservationTime(Utils.parse(observationDateTime));
         }
         if (measuredDistance != null) {
             data.setMeasuredDistance(measuredDistance);
@@ -51,7 +47,7 @@ public class DataServiceImpl implements DataService {
         if (dataEntity == null) {
             throw new DataNotFoundException(dataId);
         }
-        return DTOUtils.getDataDTO(dataEntity);
+        return Utils.getDataDTO(dataEntity);
     }
 
     @Override
@@ -70,10 +66,10 @@ public class DataServiceImpl implements DataService {
     public void addData(DataDTO dataDto) throws DataAlreadyExist, InvalidInput {
         DataEntity dataEntity;
         try {
-            DTOUtils.validateDataDTO(dataDto);
+            Utils.validateDataDTO(dataDto);
             dataEntity = dataRepository.getById(dataDto.getId());
             if (dataEntity == null || dataEntity.getId() == null) {
-                dataEntity = DTOUtils.getDataEntity(dataDto);
+                dataEntity = Utils.getDataEntity(dataDto);
                 dataRepository.save(dataEntity);
             }
         } catch (InvalidInput e) {

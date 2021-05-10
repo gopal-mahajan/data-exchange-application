@@ -5,8 +5,6 @@ import com.data.kaveri.dataexchange.exception.DataAlreadyExist;
 import com.data.kaveri.dataexchange.exception.DataNotFoundException;
 import com.data.kaveri.dataexchange.exception.InvalidInput;
 
-import java.time.LocalDateTime;
-
 public interface DataService {
     void editData(String dataId, Float currentLevel, String observationDateTime,
                   Float measuredDistance, Float referenceLevel) throws DataNotFoundException, InvalidInput;
