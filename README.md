@@ -32,8 +32,10 @@ As soon as the user starts the application and opens localhost:8080 in the brows
 
 After the authentication process only a user can call APIs.
 
-**Postman Collection link.**
+**Postman Collection link :**
 https://www.getpostman.com/collections/bca92b6a790843d0c7cc
+
+To use this collection import the collection in Postman.
 
 # Deployment
 
@@ -46,7 +48,7 @@ And spring.datasource.password
 
 Build the project using - mvn clean install
 
-Run the project and follow any one of the following steps for API calls:
+Run the project and follow any one of the following steps to run the application:
 1) add configuration in intellij - add main class - "com.data.kaveri.dataexchange.IoTDataExchangeApplication"
 2) java -jar <path_to_repo>\data-exchange\target\data-exchange-0.0.1-SNAPSHOT.jar 
 
