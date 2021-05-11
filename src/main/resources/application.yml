@@ -4,6 +4,11 @@ spring.datasource.url: jdbc:postgresql://localhost:5432/data_exchanges
 spring.datasource.username: postgres
 spring.datasource.password: 123
 spring.datasource.driver-class-name: org.postgresql.Driver
+#okta:
+#  oauth2:
+#    issuer: https://dev-18949719.okta.com/oauth2/default
+#    client-id: 0oapw425uot0u9sui5d6oauth2
+#    client-secret: stpt6TBvN0oxb-23RgjSyywh2Yra8C8kneP5XFfE
 spring:
   jpa:
     hibernate:
@@ -13,27 +18,30 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
-
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
   thymeleaf:
     cache: false
-  security:
-    oauth2:
-      client:
-        registration:
-          okta:
-            client-id: 0oapnb9qhoX67oV7e5d6
-            client-secret: SQ9ApjPxSv6R4ERuaE6Jg49AzF1-1ZejNpMG0Cbr
-        provider:
-          okta:
-            authorization-uri: https://dev-68877762.okta.com/oauth2/default/v1/authorize
-            token-uri: https://dev-68877762.okta.com/oauth2/default/v1/token
-            user-info-uri: https://dev-68877762.okta.com/oauth2/default/v1/userinfo
-            jwk-set-uri: https://dev-68877762.okta.com/oauth2/default/v1/keys
-
-
-
-
-
-
-
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          github:
+#            client-id: bc5c3085ddb49932cc9a
+#            client-secret: e3b89b9c12eb2d7d05f9d8c11690e427dad1a270
+#          okta:
+#            client-id: 0oapw425uot0u9sui5d6
+#            client-secret: stpt6TBvN0oxb-23RgjSyywh2Yra8C8kneP5XFfE
+#            client-name: Testing Data
+#        provider:
+#          okta:
+#            issuer-uri: https://dev-18949719.okta.com/oauth2/default
+#            authorizationUri: https://dev-18949719.okta.com/oauth2/default/v1/authorize
+#            tokenUri: https://dev-18949719.okta.com/oauth2/default/v1/token
+#            userInfoUri: https://dev-18949719.okta.com/oauth2/default/v1/userinfo
+#            jwkSetUrl: https://dev-18949719.okta.com/oauth2/default/v1/keys
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: https://dev-18949719.okta.com/oauth2/default/v1/keys
 
