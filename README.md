@@ -50,6 +50,9 @@ Run the project and follow any one of the following steps for API calls:
 1) add configuration in intellij - add main class - "com.data.kaveri.dataexchange.IoTDataExchangeApplication"
 2) java -jar <path_to_repo>\data-exchange\target\data-exchange-0.0.1-SNAPSHOT.jar 
 
-First, open browser and open localhost:8080 for username: "user", password:"123" 
+First, open browser and open localhost:8080 and Login
+for username: "user"
+password:"123" 
+
 1) Using browser link -  localhost:8080/swagger-ui.html
 2) Using Postman.
