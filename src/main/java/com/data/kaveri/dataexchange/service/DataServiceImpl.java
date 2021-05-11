@@ -70,7 +70,8 @@ public class DataServiceImpl implements DataService {
             if ((!dataRepository.existsById(dataDto.getId())) || dataRepository.getById(dataDto.getId()).isDeleted()) {
                 dataEntity = Utils.getDataEntity(dataDto);
                 dataRepository.save(dataEntity);
-            } else {
+            }
+            else {
                 throw new DataAlreadyExist(dataDto.getId());
             }
         } catch (InvalidInput e) {

@@ -7,7 +7,7 @@ import com.data.kaveri.dataexchange.exception.InvalidInput;
 import com.data.kaveri.dataexchange.repositories.DataRepository;
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.thymeleaf.util.StringUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
